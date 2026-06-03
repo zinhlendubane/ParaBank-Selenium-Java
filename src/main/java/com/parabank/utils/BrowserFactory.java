@@ -14,15 +14,21 @@ public class BrowserFactory {
 
     public static WebDriver getDriver() {
         if (driver == null) {
-            boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
             String browser = ConfigReader.getBrowser();
+
+            // system property (-Dheadless=true) overrides config.properties
+            String headlessProp = System.getProperty("headless");
+            boolean headless = headlessProp != null
+                    ? Boolean.parseBoolean(headlessProp)
+                    : ConfigReader.isHeadless();
 
             switch (browser.toLowerCase()) {
                 case "chrome" -> driver = createChrome(headless);
                 case "firefox" -> driver = createFirefox(headless);
                 case "edge" -> driver = createEdge(headless);
                 default -> throw new IllegalArgumentException(
-                        "Browser not supported: " + browser
+                        "Browser not supported: " + browser +
+                                ". Use chrome, firefox, or edge in config.properties"
                 );
             }
             driver.manage().window().maximize();
