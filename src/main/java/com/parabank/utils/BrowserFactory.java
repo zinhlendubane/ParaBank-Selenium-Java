@@ -14,16 +14,15 @@ public class BrowserFactory {
 
     public static WebDriver getDriver() {
         if (driver == null) {
+            boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
             String browser = ConfigReader.getBrowser();
-            boolean headless = ConfigReader.isHeadless();
 
             switch (browser.toLowerCase()) {
                 case "chrome" -> driver = createChrome(headless);
                 case "firefox" -> driver = createFirefox(headless);
                 case "edge" -> driver = createEdge(headless);
                 default -> throw new IllegalArgumentException(
-                        "Browser not supported: " + browser +
-                                ". Use chrome, firefox, or edge in config.properties"
+                        "Browser not supported: " + browser
                 );
             }
             driver.manage().window().maximize();
@@ -37,6 +36,10 @@ public class BrowserFactory {
             options.addArguments("--headless");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--window-size=1920,1080");
+            options.addArguments("--remote-debugging-port=9222");
+
         }
         return new ChromeDriver(options);
     }

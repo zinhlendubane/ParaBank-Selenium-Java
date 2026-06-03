@@ -21,3 +21,5 @@ jobs:
 
       - name: Run tests headless
         run: mvn test -Dheadless=true
+        env:
+          JAVA_OPTS: "-Dheadless=true"
