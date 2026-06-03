@@ -1,6 +1,7 @@
 package com.parabank.tests;
 
 import com.parabank.pages.RegistrationPage;
+import com.parabank.utils.CsvWriter;
 import com.parabank.utils.UsernameGenerator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -30,15 +31,19 @@ public class RegistrationTest extends BaseTest{
                     .enterUsername(username);
         }
 
-        @Test
-        public void testSuccessfulRegistration() {
-            fillCommonFields(UsernameGenerator.generateUniqueUsername())
-                    .enterPassword(PASSWORD)
-                    .enterRepeatedPassword(PASSWORD)
-                    .clickRegister();
+    @Test
+    public void testSuccessfulRegistration() {
+        String username = UsernameGenerator.generateUniqueUsername();
 
-           Assert.assertTrue(registrationPage.isRegistrationSuccessful());
-        }
+        fillCommonFields(username)
+                .enterPassword(PASSWORD)
+                .enterRepeatedPassword(PASSWORD)
+                .clickRegister();
+
+        Assert.assertTrue(registrationPage.isRegistrationSuccessful());
+
+        CsvWriter.saveCredentials(username, PASSWORD);
+    }
 
         @Test
         public void testDuplicateUserRegistration() {

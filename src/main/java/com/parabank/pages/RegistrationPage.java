@@ -132,6 +132,10 @@ public class RegistrationPage {
         return passwordError.getText();
     }
 
-
+    public String getRegisteredUsername() {
+        return driver.findElement(By.xpath("//div[@id='rightPanel']//h1"))
+                .getText()
+                .replace("Welcome ", "");
+    }
 
 }
