@@ -107,7 +107,12 @@ public class RegistrationPage {
     }
 
     public RegistrationPage clickRegister() {
-        this.registerButton.click();
+        registerButton.click();
+        // wait for page to fully load after registration
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//div[@id='rightPanel']//h1")
+        ));
         return this;
     }
 

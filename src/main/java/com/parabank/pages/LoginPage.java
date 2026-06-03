@@ -25,11 +25,12 @@ public class LoginPage {
     }
 
     public LoginPage goTo() {
-        driver.get(ConfigReader.getBaseUrl() + "/login.htm");
+        driver.get(ConfigReader.getBaseUrl() + "/index.htm");
         return this;
     }
-
     public LoginPage enterUsername(String username) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOf(usernameField));
         usernameField.clear();
         usernameField.sendKeys(username);
         return this;

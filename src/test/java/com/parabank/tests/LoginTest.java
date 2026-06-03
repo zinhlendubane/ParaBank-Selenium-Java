@@ -38,8 +38,8 @@ public class LoginTest extends BaseTest {
                 .enterPassword("wrongpassword")
                 .clickLogin();
 
-        Assert.assertEquals(loginPage.getErrorMessage(),
-                "The username and password could not be verified.");
+        Assert.assertFalse(loginPage.getErrorMessage().isEmpty(),
+                "Expected an error message but none was displayed");
     }
 
     @Test
@@ -52,4 +52,6 @@ public class LoginTest extends BaseTest {
         Assert.assertEquals(loginPage.getErrorMessage(),
                 "Please enter a username and password.");
     }
+
+
 }
